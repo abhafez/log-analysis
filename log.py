@@ -67,7 +67,10 @@ def list_errors(err_resutlts):
 
 print(question1)
 list_results(result1)
+print("\n")
 print(question2)
 list_results(result2)
+print("\n")
 print(question3)
 list_errors(result3)
+print("\n")
