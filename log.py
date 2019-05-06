@@ -56,8 +56,6 @@ def get_query_results(sql_query):
 result1 = get_query_results(query1)
 result2 = get_query_results(query2)
 result3 = get_query_results(query3)
-print(result3)
-
 
 def list_results(result):
     for i in range(len(result)):
@@ -65,7 +63,7 @@ def list_results(result):
 
 def list_errors(err_resutlts):
     for i in err_resutlts:
-        print('{0} - {1}% errors'.format(datetime.strftime(i[0], '%A, %B %d, %Y'), i[1]))
+        print('\t{0} - {1}% errors'.format(datetime.strftime(i[0], '%A, %B %d, %Y'), i[1]))
 
 print(question1)
 list_results(result1)
