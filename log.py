@@ -25,7 +25,14 @@ WHERE log.status LIKE '200 OK'
 GROUP BY authors.name ORDER BY views DESC;
 '''
 
-def get_queryResults(sql_query):
+question3 = "On which days more than 1% of the requests led to error?"
+query3 = '''
+SELECT count(*) as fails
+FROM log WHERE log.status NOT LIKE '200 OK'
+GROUP BY time::TIMESTAMP::DATE;
+'''
+
+def get_query_results(sql_query):
     try:
         db = psycopg2.connect(database=DBNAME)
         c = db.cursor()
@@ -38,8 +45,10 @@ def get_queryResults(sql_query):
         db.close()
 
 
-result1 = get_queryResults(query1)
-result2 = get_queryResults(query2)
+# result1 = get_query_results(query1)
+# result2 = get_query_results(query2)
+result3 = get_query_results(query3)
+print(result3)
 
 
 def list_results(result):
@@ -47,7 +56,9 @@ def list_results(result):
         print("\t %s - %s views" % (result[i][0], result[i][1]))
 
 
-print(question1)
-list_results(result1)
-print(question2)
-list_results(result2)
+# print(question1)
+# list_results(result1)
+# print(question2)
+# list_results(result2)
+# print(question3)
+# print(result3)
