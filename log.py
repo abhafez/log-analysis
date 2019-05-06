@@ -65,7 +65,7 @@ def list_results(result):
 
 def list_errors(err_resutlts):
     for i in err_resutlts:
-        print("\t %s - %s errors" %(datetime.strftime(i[0], '%A, %B %d, %Y'), i[1]))
+        print('{0} - {1}% errors'.format(datetime.strftime(i[0], '%A, %B %d, %Y'), i[1]))
 
 print(question1)
 list_results(result1)
