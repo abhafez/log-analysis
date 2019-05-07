@@ -31,13 +31,16 @@ SELECT * FROM (
 SELECT total.day,
 round(cast((100*fails.hits) AS numeric) / cast(total.hits AS numeric), 2)
 AS error
-    FROM (SELECT date(time) AS day, count(*) AS hits FROM log GROUP BY day) AS total
-        INNER JOIN
-        (SELECT date(time) AS day, count(*) AS hits
-        FROM log
-        WHERE status NOT LIKE '200 OK' GROUP BY day) AS fails on total.day = fails.day)
+    FROM (SELECT date(time) AS day, count(*)
+    AS hits FROM log GROUP BY day) AS total
+    INNER JOIN
+    (SELECT date(time) AS day, count(*) AS hits
+    FROM log
+    WHERE status NOT LIKE '200 OK' GROUP BY day)
+        AS fails on total.day = fails.day)
 AS t WHERE error > 1.0;
 '''
+
 
 def get_query_results(sql_query):
     try:
@@ -52,24 +55,29 @@ def get_query_results(sql_query):
         db.close()
 
 
-result1 = get_query_results(query1)
-result2 = get_query_results(query2)
-result3 = get_query_results(query3)
-
 def list_results(result):
     for i in range(len(result)):
         print("\t %s - %s views" % (result[i][0], result[i][1]))
 
+
 def list_errors(err_resutlts):
     for i in err_resutlts:
-        print('\t{0} - {1}% errors'.format(datetime.strftime(i[0], '%A, %B %d, %Y'), i[1]))
+        print(
+            '\t{0} - {1}% errors'.format
+            (datetime.strftime(i[0], '%A, %B %d, %Y'), i[1]))
 
-print(question1)
-list_results(result1)
-print("\n")
-print(question2)
-list_results(result2)
-print("\n")
-print(question3)
-list_errors(result3)
-print("\n")
+
+if __name__ == '__main__':
+    # code goes here
+    result1 = get_query_results(query1)
+    result2 = get_query_results(query2)
+    result3 = get_query_results(query3)
+    print(question1)
+    list_results(result1)
+    print("\n")
+    print(question2)
+    list_results(result2)
+    print("\n")
+    print(question3)
+    list_errors(result3)
+    print("\n")
