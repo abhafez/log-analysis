@@ -5,25 +5,24 @@ from datetime import datetime
 
 DBNAME = "news"
 
-question1 = "What are the most popular articles of all time?"
+question1 = "What are the most popular three articles of all times?"
 query1 = '''
-SELECT title, count(*) as views
-FROM articles
-JOIN log
-ON articles.slug = substring(log.path, 10)
+SELECT title, count(*) as clicks
+FROM articles JOIN log
+ON CONCAT('/article/', articles.slug) = log.path
 GROUP BY title
-ORDER BY views DESC LIMIT 3;
+ORDER BY clicks DESC LIMIT 3;
 '''
-question2 = "Who are the most popular article authors of all time?"
+question2 = "Who are the most popular authors of all times ?"
 query2 = '''
-SELECT authors.name, count(*) as views
+SELECT authors.name AS name, count(*) AS clicks
 FROM articles
 JOIN authors
 ON articles.author = authors.id
 JOIN log
-ON articles.slug = substring(log.path, 10)
-WHERE log.status LIKE '200 OK'
-GROUP BY authors.name ORDER BY views DESC;
+ON CONCAT('/article/', articles.slug) = log.path
+WHERE log.status = '200 OK'
+GROUP BY name ORDER BY clicks DESC;
 '''
 
 question3 = "On which days more than 1% of the requests led to error?"
